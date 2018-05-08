@@ -140,8 +140,6 @@ namespace SurveySolution.Controllers
                 SurveyTitle = sqav.SurveyTitle,
                 SurveyDescription = sqav.SurveyDesc
             };
-
-            
             db.SaveChanges();
 
             /*Loop through the list of questions in the viewmodel to add them to the question table*/
@@ -155,7 +153,16 @@ namespace SurveySolution.Controllers
                     SurveyId = survey.Id
                 };
                 //if the question doesn't exist in db.questions, add it
-                
+                List<Question> newQuestions = (from s in sqav.Questions
+                                              join d in db.Questions
+                                              on new { s.SurveyId, s.QuestionName } equals
+                                                 new { d.SurveyId, d.QuestionName } into ps
+                                                 from p in ps.DefaultIfEmpty()
+                                              where p == null
+                                              select s).ToList();
+
+                db.Questions.AddRange(newQuestions);
+                                              
 
             }
 
