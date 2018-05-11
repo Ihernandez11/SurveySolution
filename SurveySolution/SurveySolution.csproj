@@ -190,6 +190,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SurveysController.cs" />
@@ -208,6 +209,14 @@
     <Compile Include="Migrations\201805061935387_addedDbSet.Designer.cs">
       <DependentUpon>201805061935387_addedDbSet.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805112042237_UpdatedAnswerModel.cs" />
+    <Compile Include="Migrations\201805112042237_UpdatedAnswerModel.Designer.cs">
+      <DependentUpon>201805112042237_UpdatedAnswerModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805112112324_AddedCreateDateToCSRModel.cs" />
+    <Compile Include="Migrations\201805112112324_AddedCreateDateToCSRModel.Designer.cs">
+      <DependentUpon>201805112112324_AddedCreateDateToCSRModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Data\Admin.cs" />
@@ -218,6 +227,7 @@
     <Compile Include="Models\Data\Survey.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ViewModels\CustomerSurveyResponseViewModel.cs" />
     <Compile Include="Models\ViewModels\SurveyQuestionAnswerViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -285,8 +295,15 @@
     <Content Include="Views\Surveys\Details.cshtml" />
     <Content Include="Views\Surveys\Edit.cshtml" />
     <Content Include="Views\Surveys\Index.cshtml" />
-    <Content Include="Views\Surveys\Response.cshtml" />
+    <Content Include="Views\Surveys\Responses.cshtml" />
     <Content Include="Views\Surveys\Customers.cshtml" />
+    <Content Include="Views\Customers\Create.cshtml" />
+    <Content Include="Views\Customers\Delete.cshtml" />
+    <Content Include="Views\Customers\Details.cshtml" />
+    <Content Include="Views\Customers\Edit.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\Customers\Survey.cshtml" />
+    <Content Include="Views\Customers\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -313,6 +330,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805061935387_addedDbSet.resx">
       <DependentUpon>201805061935387_addedDbSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805112042237_UpdatedAnswerModel.resx">
+      <DependentUpon>201805112042237_UpdatedAnswerModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805112112324_AddedCreateDateToCSRModel.resx">
+      <DependentUpon>201805112112324_AddedCreateDateToCSRModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

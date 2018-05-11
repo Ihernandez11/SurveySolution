@@ -1,0 +1,59 @@
+﻿@model SurveySolution.Models.ViewModels.CustomerSurveyResponseViewModel
+
+@{
+    ViewBag.Title = Model.SurveyTitle;
+}
+
+<h2>@Model.SurveyTitle - @Model.SurveyDesc</h2>
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.SurveyID)
+    @Html.HiddenFor(model => model.CustomerID)
+    @Html.HiddenFor(model => model.SurveyTitle)
+    @Html.HiddenFor(model => model.SurveyDesc)
+    
+
+    <h4>Answer the questions below: </h4>
+
+    <div id="questionGroup">
+
+        @for (int i = 0; i < Model.Questions.Count(); i++)
+        {
+            <div class="cold-md-10">
+                @Html.HiddenFor(model => model.Questions[i].Id)
+                @Html.HiddenFor(model => model.Questions[i].Required)
+                @Html.HiddenFor(model => model.Questions[i].QuestionName)
+                <p>@Model.Questions[i].QuestionName</p>
+                @if (Model.Questions[i].Required == true)
+                {<p required="true">*Required</p>}
+                <p>Answer: </p>
+                @Html.HiddenFor(model => model.Answers[i].Id)
+                @Html.EditorFor(model => model.Answers[i].AnswerValue, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Answers[i].AnswerValue, "", new { @class = "text-danger" })
+
+            </div>
+            <hr />
+        }
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

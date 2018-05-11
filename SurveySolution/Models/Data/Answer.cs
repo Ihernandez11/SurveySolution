@@ -10,7 +10,7 @@ namespace SurveySolution.Models.Data
     {
 
         public int Id { get; set; }
-        [Required, Display(Name = "Answer Value")]
+        [Display(Name = "Answer Value")]
         public string AnswerValue { get; set; }
 
         [Required]

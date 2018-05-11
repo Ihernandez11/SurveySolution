@@ -23,6 +23,9 @@ namespace SurveySolution.Models.Data
         [Required]
         public int AnswerId { get; set; }
 
+        [Required]
+        public DateTime CreateDate { get; set; }
+
 
     }
 }

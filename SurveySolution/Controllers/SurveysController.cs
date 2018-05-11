@@ -52,14 +52,13 @@ namespace SurveySolution.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(SurveyQuestionAnswerViewModel sqav)
         {
-            
-
+            //create survey object to capture data returned in sqav model
             Survey survey = new Survey()
             {
                 SurveyTitle = sqav.SurveyTitle,
                 SurveyDescription = sqav.SurveyDesc
             };
-
+            //Add the survey object to the surveys table
             db.Surveys.Add(survey);
             db.SaveChanges();
             
@@ -73,14 +72,13 @@ namespace SurveySolution.Controllers
                     Required = q.Required,
                     SurveyId = survey.Id
                 };
-
                 db.Questions.Add(question);
             }
-
             db.SaveChanges();
 
             //List<Answer> answers = new List<Answer>();
 
+            //Return to the index page when complete
             return RedirectToAction("Index");
             
         }
@@ -101,16 +99,24 @@ namespace SurveySolution.Controllers
         // GET: Surveys/Edit/5
         public ActionResult Edit(int? id)
         {
-            
-
+            //return bad request if id is null
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
+            //create a survey object using the Find by the id parameter provided
             Survey survey = db.Surveys.Find(id);
+            
+            //create a list of questions for the questions in the db that map to the SurveyID
             List<Question> questions = db.Questions.Where(q => q.SurveyId == survey.Id).ToList();
 
+            //If there is no survey found, return NotFound page
+            if (survey == null)
+            {
+                return HttpNotFound();
+            }
+
+            //create the view model object to return to the view
             SurveyQuestionAnswerViewModel sqav = new SurveyQuestionAnswerViewModel
             {
                 SurveyID = survey.Id,
@@ -118,13 +124,12 @@ namespace SurveySolution.Controllers
                 SurveyDesc = survey.SurveyDescription,
                 Questions = questions
             };
-
+            //Create a current index to capture the number of question labels on the page
             ViewBag.QuestionCount = sqav.Questions.Count() - 1;
 
-            if (survey == null)
-            {
-                return HttpNotFound();
-            }
+            
+            
+            //return the model to the view
             return View(sqav);
         }
 
@@ -135,14 +140,21 @@ namespace SurveySolution.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(SurveyQuestionAnswerViewModel sqav)
         {
+            //create a survey object from the model provided 
             Survey survey = new Survey()
             {
+                Id = sqav.SurveyID,
                 SurveyTitle = sqav.SurveyTitle,
                 SurveyDescription = sqav.SurveyDesc
             };
-            db.SaveChanges();
 
-            /*Loop through the list of questions in the viewmodel to add them to the question table*/
+            
+                //if the data has changed, update it
+                db.Entry(survey).State = EntityState.Modified;
+                db.SaveChanges();
+            
+
+            /*Loop through the list of questions in the viewmodel to add them to the question table if they are new*/
             foreach (var q in sqav.Questions)
             {
                 Question question = new Question
@@ -150,23 +162,21 @@ namespace SurveySolution.Controllers
                     QuestionName = q.QuestionName,
                     QuestionType = "Free Response",
                     Required = q.Required,
-                    SurveyId = survey.Id
+                    SurveyId = sqav.SurveyID
                 };
-                //if the question doesn't exist in db.questions, add it
-                List<Question> newQuestions = (from s in sqav.Questions
-                                              join d in db.Questions
-                                              on new { s.SurveyId, s.QuestionName } equals
-                                                 new { d.SurveyId, d.QuestionName } into ps
-                                                 from p in ps.DefaultIfEmpty()
-                                              where p == null
-                                              select s).ToList();
 
-                db.Questions.AddRange(newQuestions);
-                                              
-
+                
+                //Use boolean method Any to check if the question name is different from any of the questions in the list
+                bool newQuestion = sqav.Questions.Any(p => p.QuestionName != question.QuestionName);
+                //if it is a new question, add it to the DB
+                if (newQuestion)
+                {
+                    db.Questions.Add(question);
+                }    
             }
 
             db.SaveChanges();
+            
 
             return RedirectToAction("Index");
         }
@@ -210,7 +220,7 @@ namespace SurveySolution.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Response(int? id)
+        public ActionResult Responses(int? id)
         {
             if (id==null)
             {
@@ -254,3 +264,9 @@ namespace SurveySolution.Controllers
         }
     }
 }
+/*Questions:
+ 1. Why is my modelState invalid in edit page?
+ 2. Is there an easier way to update a list in the ViewModel?
+
+     
+     */

@@ -7,8 +7,9 @@ using System.Web;
 
 namespace SurveySolution.Models.ViewModels
 {
-    public class SurveyQuestionAnswerViewModel
+    public class CustomerSurveyResponseViewModel
     {
+
         public int SurveyID { get; set; }
         [Display(Name = "Survey Title")]
         public string SurveyTitle { get; set; }
@@ -20,7 +21,7 @@ namespace SurveySolution.Models.ViewModels
         public List<Answer> Answers { get; set; }
 
 
-
+        public int CustomerID { get; set; }
 
     }
 }
