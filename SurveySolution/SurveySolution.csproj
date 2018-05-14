@@ -217,6 +217,10 @@
     <Compile Include="Migrations\201805112112324_AddedCreateDateToCSRModel.Designer.cs">
       <DependentUpon>201805112112324_AddedCreateDateToCSRModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805132350083_AddedFieldsToCustomerSurveyResponse.cs" />
+    <Compile Include="Migrations\201805132350083_AddedFieldsToCustomerSurveyResponse.Designer.cs">
+      <DependentUpon>201805132350083_AddedFieldsToCustomerSurveyResponse.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Data\Admin.cs" />
@@ -228,6 +232,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ViewModels\CustomerSurveyResponseViewModel.cs" />
+    <Compile Include="Models\ViewModels\SurveyCustomerViewModel.cs" />
     <Compile Include="Models\ViewModels\SurveyQuestionAnswerViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -336,6 +341,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805112112324_AddedCreateDateToCSRModel.resx">
       <DependentUpon>201805112112324_AddedCreateDateToCSRModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805132350083_AddedFieldsToCustomerSurveyResponse.resx">
+      <DependentUpon>201805132350083_AddedFieldsToCustomerSurveyResponse.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

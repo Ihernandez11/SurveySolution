@@ -1,8 +1,51 @@
-﻿@model SurveySolution.Models.Data.CustomerSurveyResponse
+﻿@model IEnumerable<SurveySolution.Models.Data.CustomerSurveyResponse>
 
 @{
     ViewBag.Title = "Response";
 }
 
-<h2>Response</h2>
+<h2>Survey Response</h2>
 
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SurveyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QuestionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AnswerValue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerId)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SurveyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.QuestionName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AnswerValue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreateDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerId)
+        </td>
+    </tr>
+    }
+
+</table>

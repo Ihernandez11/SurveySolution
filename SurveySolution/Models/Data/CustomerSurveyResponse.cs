@@ -11,19 +11,28 @@ namespace SurveySolution.Models.Data
         
         public int Id { get; set; }
 
-        [Required]
+        [Required, Display(Name = "Customer ID")]
         public int CustomerId { get; set; }
 
-        [Required]
+        [Required, Display(Name = "Survey ID")]
         public int SurveyId { get; set; }
 
-        [Required]
+        [Required, Display(Name = "Survey Name")]
+        public string SurveyName { get; set; }
+
+        [Required, Display(Name = "Question ID")]
         public int QuestionId { get; set; }
 
-        [Required]
+        [Required, Display(Name = "Question Name")]
+        public string QuestionName { get; set; }
+
+        [Required, Display(Name = "Answer ID")]
         public int AnswerId { get; set; }
 
-        [Required]
+        [Required, Display(Name = "Answer Value")]
+        public string AnswerValue { get; set; }
+
+        [Required, Display(Name = "Create Date")]
         public DateTime CreateDate { get; set; }
 
 

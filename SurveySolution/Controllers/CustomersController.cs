@@ -111,8 +111,11 @@ namespace SurveySolution.Controllers
                 CustomerSurveyResponse csr = new CustomerSurveyResponse()
                 {
                     SurveyId = csrv.SurveyID,
+                    SurveyName = csrv.SurveyTitle,
                     QuestionId = csrv.Questions[i].Id,
+                    QuestionName = csrv.Questions[i].QuestionName,
                     AnswerId = answer.Id,
+                    AnswerValue = csrv.Answers[i].AnswerValue,
                     CustomerId = csrv.CustomerID,
                     CreateDate = DateTime.Now
                 };

@@ -41,6 +41,7 @@
         {
         <div id="newQuestion">
             <div class="form-group">
+                @Html.HiddenFor(model => model.Questions[i].Id)
                 @Html.LabelFor(model => model.Questions[i].QuestionName, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="cold-md-10">
                     @Html.EditorFor(model => model.Questions[i].QuestionName, new { htmlAttributes = new { @class = "form-control" } })

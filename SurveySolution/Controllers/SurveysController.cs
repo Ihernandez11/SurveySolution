@@ -155,24 +155,27 @@ namespace SurveySolution.Controllers
             
 
             /*Loop through the list of questions in the viewmodel to add them to the question table if they are new*/
-            foreach (var q in sqav.Questions)
+            for (int i=0; i < sqav.Questions.Count(); i++)
             {
+
                 Question question = new Question
                 {
-                    QuestionName = q.QuestionName,
+                    Id = sqav.Questions[i].Id,
+                    QuestionName = sqav.Questions[i].QuestionName,
                     QuestionType = "Free Response",
-                    Required = q.Required,
+                    Required = sqav.Questions[i].Required,
                     SurveyId = sqav.SurveyID
                 };
 
+                //Update existing questions
+                db.Entry(question).State = EntityState.Modified;
+
                 
-                //Use boolean method Any to check if the question name is different from any of the questions in the list
-                bool newQuestion = sqav.Questions.Any(p => p.QuestionName != question.QuestionName);
-                //if it is a new question, add it to the DB
-                if (newQuestion)
+                //if it is a new question, question id will be 0 - add it to the DB
+                if (question.Id == 0)
                 {
                     db.Questions.Add(question);
-                }    
+                } 
             }
 
             db.SaveChanges();
@@ -220,6 +223,8 @@ namespace SurveySolution.Controllers
             return RedirectToAction("Index");
         }
 
+
+        //GET: Surveys/Responses/SurveyId
         public ActionResult Responses(int? id)
         {
             if (id==null)
@@ -233,10 +238,18 @@ namespace SurveySolution.Controllers
             {
                 return HttpNotFound();
             }
-            //I should return the CustomerSurveyResponse model
-            return View();
+
+            //Find the CustomerSurveyResponse data that maps to that survey ID
+            List<CustomerSurveyResponse> csrList = db.CustomerSurveyResponses.Where(p => p.SurveyId == survey.Id).ToList();
+
+
+            //CustomerSurveyResponse csr = CustomerSurveyResponse
+
+            return View(csrList);
         }
 
+        //GET Surveys/Customers/SurveyID
+        //This view will show the list of customers after an admin clicks on Send from the survey page
         public ActionResult Customers(int? id)
         {
             if (id == null)
@@ -250,8 +263,16 @@ namespace SurveySolution.Controllers
             {
                 return HttpNotFound();
             }
+
+            SurveyCustomerViewModel scv = new SurveyCustomerViewModel()
+            {
+                SurveyID = survey.Id,
+                SurveyName = survey.SurveyTitle,
+                Customers = db.Customers.ToList()
+            };
+
             //This should return the Customer model with a list of customers
-            return View();
+            return View(scv);
         }
 
         protected override void Dispose(bool disposing)
