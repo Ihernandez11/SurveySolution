@@ -4,8 +4,10 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using SurveySolution.Code;
 using SurveySolution.Models;
 using SurveySolution.Models.Data;
 using SurveySolution.Models.ViewModels;
@@ -274,6 +276,31 @@ namespace SurveySolution.Controllers
             //This should return the Customer model with a list of customers
             return View(scv);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Customers(List<string> checkbox, SurveyCustomerViewModel scv)
+        {
+            for(int i = 0; i < scv.Customers.Count(); i++)
+            {
+
+                if(checkbox[i] == "true")
+                {
+                    Customer customer = db.Customers.Find(scv.Customers[i].Id);
+                    Survey survey = db.Surveys.Find(scv.SurveyID);
+                    MailAddress custEmail = new MailAddress(customer.Email);
+
+                    EmailGeneration em = new EmailGeneration();
+                    em.SendEmail(custEmail, "/Customers/Survey/" + survey.Id.ToString());
+                }
+
+                
+
+            }
+
+            return RedirectToAction("Index");
+        }
+
 
         protected override void Dispose(bool disposing)
         {
