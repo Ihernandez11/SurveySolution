@@ -14,6 +14,8 @@ namespace SurveySolution.Models.ViewModels
 
         public List<Customer> Customers { get; set; }
 
+        public List<bool> isSelected { get; set; }
+
 
     }
 }

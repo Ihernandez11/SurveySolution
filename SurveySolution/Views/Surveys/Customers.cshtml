@@ -34,7 +34,7 @@
         <tr>
                 @Html.HiddenFor(model => model.Customers[i].Id)
             <td>
-                @Html.CheckBox("Checkbox", new { id = Model.Customers[i].Id })
+                @Html.CheckBoxFor(model => model.isSelected[i])
             </td>
             <td>
                 @Html.DisplayFor(model => model.Customers[i].FirstName)

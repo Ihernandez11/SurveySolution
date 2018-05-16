@@ -279,26 +279,26 @@ namespace SurveySolution.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Customers(List<string> checkbox, SurveyCustomerViewModel scv)
+        public ActionResult Customers(SurveyCustomerViewModel scv)
         {
             for(int i = 0; i < scv.Customers.Count(); i++)
             {
 
-                if(checkbox[i] == "true")
+                if(scv.isSelected[i])
                 {
                     Customer customer = db.Customers.Find(scv.Customers[i].Id);
                     Survey survey = db.Surveys.Find(scv.SurveyID);
                     string custEmail = customer.Email;
 
                     
-                    EmailGeneration.SendEmail(custEmail, "/Customers/Survey/" + survey.Id.ToString());
+                    EmailGeneration.SendEmail(custEmail, "Customers/Survey/" + survey.Id.ToString());
                 }
 
                 
 
             }
 
-            return RedirectToAction("Index");
+            return View("Success");
         }
 
 
@@ -312,9 +312,4 @@ namespace SurveySolution.Controllers
         }
     }
 }
-/*Questions:
- 1. Why is my modelState invalid in edit page?
- 2. Is there an easier way to update a list in the ViewModel?
 
-     
-     */
