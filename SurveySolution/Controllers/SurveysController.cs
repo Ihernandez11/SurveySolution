@@ -288,10 +288,10 @@ namespace SurveySolution.Controllers
                 {
                     Customer customer = db.Customers.Find(scv.Customers[i].Id);
                     Survey survey = db.Surveys.Find(scv.SurveyID);
-                    MailAddress custEmail = new MailAddress(customer.Email);
+                    string custEmail = customer.Email;
 
-                    EmailGeneration em = new EmailGeneration();
-                    em.SendEmail(custEmail, "/Customers/Survey/" + survey.Id.ToString());
+                    
+                    EmailGeneration.SendEmail(custEmail, "/Customers/Survey/" + survey.Id.ToString());
                 }
 
                 

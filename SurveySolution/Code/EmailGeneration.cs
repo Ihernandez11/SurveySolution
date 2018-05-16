@@ -3,35 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Web;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using System.Threading.Tasks;
+using System.Configuration;
 
 namespace SurveySolution.Code
 {
     public class EmailGeneration
     {
         
-        public void SendEmail(MailAddress toEmail, string surveyURL)
+        public static void SendEmail(string toEmail, string surveyURL)
         {
-            SmtpClient client = new SmtpClient();
-            client.Host = "smtp.gmail.com";
-            client.Port = 465;
-
-            MailAddress from = new MailAddress("Israel.hernandez11@gmail.com", "Izzy");
-
-            MailMessage message = new MailMessage(from, toEmail);
-
-            message.Body = "You have been invited to take the Survey below.";
-            message.Body += Environment.NewLine + surveyURL;
-            message.BodyEncoding = System.Text.Encoding.UTF8;
-
-            message.Subject = "Take this survey!";
-            message.SubjectEncoding = System.Text.Encoding.UTF8;
-
-            client.Send(message);
-
-            message.Dispose();
+            
+            
+                string apiKey = ConfigurationManager.AppSettings["SendgridAPIKey"];
+                var client = new SendGridClient(apiKey);
+                var from = new EmailAddress(toEmail, "Israel Hernandez");
+                var subject = "Please take this survey!";
+                var to = new EmailAddress(toEmail);
+                var plainTextContent = "You have been invited to take the survey below:";
+                var htmlContent = "<strong> "+surveyURL + " </strong>";
+                var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+                var response = client.SendEmailAsync(msg);
+            
 
         }
-        
 
+
+
+            
+        }
     }
-}
+
+
